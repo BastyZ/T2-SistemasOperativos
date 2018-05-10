@@ -1,0 +1,7 @@
+*.idea
+*.o
+ar*
+/idea
+*.xml
+*.s
+*.a
