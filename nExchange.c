@@ -16,3 +16,9 @@
  *     de cumplirse el timeout, retorno null.
  */
 
+#include "nSysimp.h"
+#include "nSystem.h"
+
+void* nExchange(nTask task, void *msg, int timeout) {
+    // TODO lo explicado arriba
+}
