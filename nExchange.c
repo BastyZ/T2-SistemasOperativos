@@ -24,16 +24,24 @@
 #include "nSystem.h"
 
 void* nExchange(nTask task, void *msg, int timeout) {
+    // Para recibir el mensaje
+    void *return_msg;
+    nTask sender_task;
+
     START_CRITICAL();
     {
         nTask this_task = current_task;
-        // debería ser el segundo
+        // debería ser el segundo, porque espera que le mande una respuesta
         if (task->status==WAIT_SEND || task->status==WAIT_SEND_TIMEOUT) {
             // Si tiene timeout, cancelo el despertador
             if (task->status==WAIT_COND_TIMEOUT) CancelTask();
             // acá debo primero recibir el mensaje del otro culiao como en nSend
+            sender_task = GetTask(this_task->send_queue);
+            // TODO verificar que recibo de tesk (?)
+            // Si la cola de envios está vacia el mensaje es nulo
+            return_msg = sender_task==NULL ? NULL : sender_task->send.msg;
         }
-        // en este punto, soy el primero de la vida
+        // en este punto, soy el primero de la vida, o le paso el mensaje al otro para que lo reciba (siendo 2do)
         PutTask(task->send_queue, this_task);
         this_task->send.msg = msg;
         if (timeout > 0) {
@@ -43,4 +51,6 @@ void* nExchange(nTask task, void *msg, int timeout) {
         ResumeNextReadyTask();
     }
     END_CRITICAL();
+
+    return return_msg;
 }
