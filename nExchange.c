@@ -16,9 +16,31 @@
  *     de cumplirse el timeout, retorno null.
  */
 
+/*
+ * Al enviar un mensaje, la tarea espera con WAIT_SEND o WAIT_SEND_TIMEOUT
+ */
+
 #include "nSysimp.h"
 #include "nSystem.h"
 
 void* nExchange(nTask task, void *msg, int timeout) {
-    // TODO lo explicado arriba
+    START_CRITICAL();
+    {
+        nTask this_task = current_task;
+        // debería ser el segundo
+        if (task->status==WAIT_SEND || task->status==WAIT_SEND_TIMEOUT) {
+            // Si tiene timeout, cancelo el despertador
+            if (task->status==WAIT_COND_TIMEOUT) CancelTask();
+            // acá debo primero recibir el mensaje del otro culiao como en nSend
+        }
+        // en este punto, soy el primero de la vida
+        PutTask(task->send_queue, this_task);
+        this_task->send.msg = msg;
+        if (timeout > 0) {
+            this_task->status = WAIT_SEND_TIMEOUT;
+            ProgramTask(timeout);
+        } else this_task->status = WAIT_SEND;
+        ResumeNextReadyTask();
+    }
+    END_CRITICAL();
 }
