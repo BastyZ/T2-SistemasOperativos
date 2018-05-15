@@ -468,6 +468,7 @@ int nWaitTask(nTask task)
                    "Hay %d tarea(s) en la cola de la tarea moribunda\n",
                    QueueLength(task->send_queue) );
     DestroyQueue(task->send_queue);
+    DestroyFifoQueue(task->exchange_queue);
     nFree(task->stack); /* Libera los recursos de la tarea */
     rc= task->rc;
     nFree(task);
