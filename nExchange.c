@@ -43,7 +43,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             this_task->exchange_msg = msg;
             // seteado el mensaje,y la proxima tarea en despertar es task
             PushObj(task->exchange_queue, this_task); /* primero en cola exchange */
-            nPrintf("2do:   me coloque en la cola de exchange de task \n");
+            //nPrintf("2do:   me coloque en la cola de exchange de task \n");
             // creo un alternative return
             if (!EmptyFifoQueue(this_task->exchange_queue)) {
                 //nPrintf("2do:   Hago get de mi exchange queue\n");
@@ -55,9 +55,9 @@ void* nExchange(nTask task, void *msg, int timeout) {
             //nPrintf("2do:   lo guardé y termino y ahora END\n");
             END_CRITICAL();
             return return_msg;
-        }/* else if (task->status==ZOMBIE) {
+        } else if (task->status==ZOMBIE) {
             nFatalError("nExchange", "El receptor es un ZOMBIE");
-        } */else {
+        } else {
             //nPrintf("Soy el primero\n");
             // en este punto, soy el primero de la vida, o le paso el mensaje al otro
             // para que lo reciba (siendo 2do)
