@@ -22,6 +22,9 @@ typedef struct Task /* Descriptor de una tarea */
   int  rc;                  /* codigo de retorno de la tarea  */
   struct Task *wait_task;   /* La tarea que espera un nExitTask */
 
+  /* Para nExchange */
+  struct FifoQueue *exchange_queue;
+
   /* Para nSend, nReceive y nReply */
   struct Queue *send_queue; /* cola de emisores en espera de esta tarea */
   union { void *msg; int rc; } send; /* sirve para intercambio de info */
