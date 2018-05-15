@@ -50,7 +50,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
                 this_task->status = WAIT_EXCHANGE_TIMEOUT;
                 ProgramTask(timeout);
             } else this_task->status = WAIT_EXCHANGE;
-            PutObj(task->exchange_queue, this_task);
+            PushObj(task->exchange_queue, this_task);
             ResumeNextReadyTask();
         }
         // Si la cola de envios está vacia el mensaje es nulo
