@@ -70,6 +70,5 @@ void* nExchange(nTask task, void *msg, int timeout) {
         nPrintf("lo guardé y termino\n");
     }
     END_CRITICAL();
-
     return return_msg;
 }
