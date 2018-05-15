@@ -45,7 +45,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
         } else {
             // en este punto, soy el primero de la vida, o le paso el mensaje al otro
             // para que lo reciba (siendo 2do)
-            PutObj(task->exchange_queue, this_task);
+            PushObj(task->exchange_queue, this_task);
             this_task->exchange_msg = msg;
             if (timeout > 0) {
                 this_task->status = WAIT_EXCHANGE_TIMEOUT;
