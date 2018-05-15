@@ -53,6 +53,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             nPrintf("agarro el mensaje\n");
             return_msg = sender_task==NULL ? NULL : sender_task->exchange_msg;
             nPrintf("lo guardé y termino\n");
+            END_CRITICAL();
             return return_msg;
         } else if (task->status==ZOMBIE) {
             nFatalError("nExchange", "El receptor es un ZOMBIE");
