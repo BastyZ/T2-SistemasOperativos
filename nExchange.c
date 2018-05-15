@@ -59,6 +59,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             this_task->exchange_msg = msg;
             if (timeout >= 0) {
                 this_task->status = WAIT_EXCHANGE_TIMEOUT;
+                this_task->exchange_is_waiting = TRUE;
                 ProgramTask(timeout);
             } else this_task->status = WAIT_EXCHANGE;
             //nPrintf("Primero: voy a hacer push");

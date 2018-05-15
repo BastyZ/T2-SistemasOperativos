@@ -26,6 +26,7 @@ typedef struct Task /* Descriptor de una tarea */
   struct FifoQueue *exchange_queue;
   void *exchange_msg;
   struct Task *exchange_task;
+  int exchange_is_waiting;
 
   /* Para nSend, nReceive y nReply */
   struct Queue *send_queue; /* cola de emisores en espera de esta tarea */

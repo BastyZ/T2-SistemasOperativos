@@ -367,7 +367,9 @@ static nTask MakeTask(int stack_size)
 {
   nTask new_task= (nTask) nMalloc(sizeof(*new_task));
   new_task->status= READY;
+  new_task->exchange_task = NULL;
   new_task->taskname=NULL;
+  new_task->exchange_is_waiting = FALSE;
   new_task->wait_task= NULL; /* Ninguna tarea ha hecho nAbsorb */
   new_task->send_queue= MakeQueue();
   new_task->exchange_queue = MakeFifoQueue();
