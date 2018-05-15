@@ -45,7 +45,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
         } else {
             // en este punto, soy el primero de la vida, o le paso el mensaje al otro
             // para que lo reciba (siendo 2do)
-            PushObj(task->exchange_queue, this_task);
+            PutObj(task->exchange_queue, this_task);
             this_task->exchange_msg = msg;
             if (timeout > 0) {
                 this_task->status = WAIT_EXCHANGE_TIMEOUT;
@@ -54,7 +54,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             ResumeNextReadyTask();
         }
         // Si la cola de envios está vacia el mensaje es nulo
-        // Como el segundo hace push de si mismo, sabemos que el es el primero
+        // Como el segundo hace push de si mismo, sabemos que el es el primero en la lista
         sender_task = GetObj(this_task->exchange_queue);
         return_msg = sender_task==NULL ? NULL : sender_task->exchange_msg;
     }
