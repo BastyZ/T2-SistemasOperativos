@@ -35,7 +35,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT) {
             nPrintF("Soy El 2do");
-            if (QueryObj(task->exchange_queue->first!=this_task)) nPrintf("No match bitch");
+            if (task->exchange_queue->first != this_task) nPrintf("No match bitch");
             if (task->status==WAIT_EXCHANGE_TIMEOUT)
                 CancelTask(task);
             task->status = READY;
