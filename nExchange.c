@@ -26,7 +26,7 @@
 void* nExchange(nTask task, void *msg, int timeout) {
     // Para recibir el mensaje
     void *return_msg;
-    nTask sender_task;
+    nTask sender_task = NULL;
 
     START_CRITICAL();
     {
@@ -55,7 +55,9 @@ void* nExchange(nTask task, void *msg, int timeout) {
         }
         // Si la cola de envios está vacia el mensaje es nulo
         // Como el segundo hace push de si mismo, sabemos que el es el primero en la lista
-        sender_task = GetObj(this_task->exchange_queue);
+        if (!EmptyFifoQueue(this_task->exchange_queue)) {
+            sender_task = GetObj(this_task->exchange_queue);
+        }
         return_msg = sender_task==NULL ? NULL : sender_task->exchange_msg;
     }
     END_CRITICAL();
