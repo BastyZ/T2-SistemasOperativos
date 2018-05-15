@@ -23,7 +23,7 @@ DEFINES=
 #------ fin parte parte dependiente -----
 
 NSYSTEM= nProcess.o nTime.o nMsg.o nSem.o nMonitor.o nIO.o nDep.o \
-         nMain.o nQueue.o nOther.o fifoqueues.o $(SYSDEP)
+         nMain.o nQueue.o nOther.o fifoqueues.o nExchange.o $(SYSDEP)
 LIBNSYS= libnSys.a
 
 CFLAGS= -ggdb -Wall -pedantic -I../include $(DEFINES)
