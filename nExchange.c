@@ -53,6 +53,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             END_CRITICAL();
             return return_msg;
         } else if (task->status==ZOMBIE) {
+            END_CRITICAL();
             return NULL;
         } else {
             //nPrintf("Soy el primero\n");
