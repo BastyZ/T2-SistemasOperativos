@@ -1,4 +1,5 @@
 #include <signal.h>
+#include "fifoqueues.h"
 
 /*************************************************************
  * nProcess.c
