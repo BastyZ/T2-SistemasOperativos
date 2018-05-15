@@ -20,12 +20,9 @@ int test1() {
   nTask t= nEmitTask(task_proc, nCurrentTask(), 10, -1, &msg1, &msg2);
 
   exch_msg= nExchange(t, &msg2, -1);
-  nPrintf("      cree los dos\n");
   if (exch_msg != &msg1)
     nFatalError("nMain", "no se recibio el mensaje esperado\n");
-  nPrintf("      hago wait\n");
   nWaitTask(t);
-  nPrintf("     hice wait\n");
   return 0;
 }
 
