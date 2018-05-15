@@ -32,9 +32,9 @@ void* nExchange(nTask task, void *msg, int timeout) {
     START_CRITICAL();
     {
         nTask this_task = current_task;
-        if (this_task->exchange_queue)
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT) {
+            if (QueryObj(task->exchange_queue->first!=this_task)) nPrintf("No match bitch");
             if (task->status==WAIT_EXCHANGE_TIMEOUT)
                 CancelTask(task);
             task->status = READY;
