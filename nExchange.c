@@ -65,7 +65,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             sender_task = GetObj(this_task->exchange_queue);
             nPrintf("Lo logre c: \n");
         }
-        nPrinf("agarro el mensaje\n");
+        nPrintf("agarro el mensaje\n");
         return_msg = sender_task==NULL ? NULL : sender_task->exchange_msg;
         nPrintf("lo guardé y termino\n");
     }
