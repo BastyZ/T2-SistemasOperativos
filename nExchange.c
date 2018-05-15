@@ -36,10 +36,6 @@ void* nExchange(nTask task, void *msg, int timeout) {
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->exchange_task==this_task && (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT)) {
             //nPrintf("2do:   Soy El 2do\n");
-            if (this_task->exchange_is_waiting) {
-                this_task->exchange_is_waiting = FALSE;
-                task->exchange_is_waiting = FALSE;
-            }
             if (task->status==WAIT_EXCHANGE_TIMEOUT)
                 CancelTask(task);
             task->status = READY;
@@ -71,7 +67,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             //nPrintf("Primero: chao loh vimoh\n");
             ResumeNextReadyTask();
         }
-        if (this_task->exchange_is_waiting) {
+        if (task->exchange_msg == NULL) {
             END_CRITICAL();
             return NULL;
         }
