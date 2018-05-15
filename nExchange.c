@@ -42,9 +42,8 @@ void* nExchange(nTask task, void *msg, int timeout) {
             //nPrintf("2do:   coloque task en la ready queue\n");
             this_task->exchange_msg = msg;
             // seteado el mensaje,y la proxima tarea en despertar es task
-            PutObj(task->exchange_queue, task); /* primero en cola exchange */
+            PutObj(task->exchange_queue, task); /* ultimo en cola exchange */
             //nPrintf("2do:   me coloque en la cola de exchange de task \n");
-            // creo un alternative return
             //nPrintf("2do:   agarro el mensaje\n");
             return_msg = task->exchange_msg==NULL ? NULL : task->exchange_msg;
             END_CRITICAL();
