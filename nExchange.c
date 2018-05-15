@@ -39,9 +39,11 @@ void* nExchange(nTask task, void *msg, int timeout) {
                 CancelTask(task);
             task->status = READY;
             PushTask(ready_queue, task); /* primer lugar en la cola ready */
+            nPrintf("coloque task en la ready queue\n");
             this_task->exchange_msg = msg;
             // seteado el mensaje,y la proxima tarea en despertar es task
             PushObj(task->exchange_queue, this_task); /* primero en cola exchange */
+            nPrintf("me coloque en la cola de exchange de task \n");
         } else if (task->status==ZOMBIE) {
             nFatalError("nExchange", "El receptor es un ZOMBIE");
         } else {
