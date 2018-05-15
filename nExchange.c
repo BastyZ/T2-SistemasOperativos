@@ -61,6 +61,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
         // Si la cola de envios está vacia el mensaje es nulo
         // Como el segundo hace push de si mismo, sabemos que el es el primero en la lista
         if (!EmptyFifoQueue(this_task->exchange_queue)) {
+            nPrintf("Hago get de mi exchange queue");
             sender_task = GetObj(this_task->exchange_queue);
         }
         return_msg = sender_task==NULL ? NULL : sender_task->exchange_msg;
