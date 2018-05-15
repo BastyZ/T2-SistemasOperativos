@@ -370,6 +370,8 @@ static nTask MakeTask(int stack_size)
   new_task->taskname=NULL;
   new_task->wait_task= NULL; /* Ninguna tarea ha hecho nAbsorb */
   new_task->send_queue= MakeQueue();
+  new_task->exchange_queue = MakeFifoQueue();
+  new_task->exchange_msg = NULL;
   new_task->stack= stack_size==0 ? NULL : (SP) nMalloc(stack_size);
   new_task->sp= &new_task->stack[stack_size/sizeof(void *)];
   /* AMD64 requiere que la pila este alineada a 16 bytes */
