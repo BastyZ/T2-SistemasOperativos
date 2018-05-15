@@ -45,12 +45,12 @@ void* nExchange(nTask task, void *msg, int timeout) {
             PushObj(task->exchange_queue, this_task); /* primero en cola exchange */
             nPrintf("2do:   me coloque en la cola de exchange de task \n");
             // creo un alternative return
-            if (!EmptyFifoQueue(this_task->exchange_queue)) {
+            //if (!EmptyFifoQueue(this_task->exchange_queue)) {
                 nPrintf("2do:   Hago get de mi exchange queue\n");
                 sender_task = GetObj(this_task->exchange_queue);
                 nPrintf("2do:   Lo logre c: \n");
-            }
-            nPrintf("agarro el mensaje\n");
+            //}
+            nPrintf("2do:   agarro el mensaje\n");
             return_msg = sender_task==NULL ? NULL : sender_task->exchange_msg;
             nPrintf("2do:   lo guardé y termino y ahora END\n");
             END_CRITICAL();
