@@ -370,8 +370,6 @@ static nTask MakeTask(int stack_size)
   new_task->taskname=NULL;
   new_task->wait_task= NULL; /* Ninguna tarea ha hecho nAbsorb */
   new_task->send_queue= MakeQueue();
-  new_task->exchange_queue = MakeFifoQueue();
-  new_task->exchange_msg = NULL;
   new_task->stack= stack_size==0 ? NULL : (SP) nMalloc(stack_size);
   new_task->sp= &new_task->stack[stack_size/sizeof(void *)];
   /* AMD64 requiere que la pila este alineada a 16 bytes */
@@ -463,19 +461,11 @@ int nWaitTask(nTask task)
     }
 
     if (task->taskname!=NULL) nFree(task->taskname);
-    nPrintf(" ----   maté al nombre");
     if (! EmptyQueue(task->send_queue))
        nFatalError("nWaitTask",
                    "Hay %d tarea(s) en la cola de la tarea moribunda\n",
                    QueueLength(task->send_queue) );
-    nPrintf(" ----   voy a matar la fifo queue");
-    if (! EmptyFifoQueue(task->exchange_queue))
-       nFatalError("nWaitTask",
-                   "Hay %d tarea(s) en la cola exchange de la tarea moribunda\n",
-                    QueueLength(task->send_queue) );
     DestroyQueue(task->send_queue);
-    nPrintf(" ----   maté la fifo queue");
-    DestroyFifoQueue(task->exchange_queue);
     nFree(task->stack); /* Libera los recursos de la tarea */
     rc= task->rc;
     nFree(task);

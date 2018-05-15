@@ -1,5 +1,4 @@
 #include <signal.h>
-#include "fifoqueues.h"
 
 /*************************************************************
  * nProcess.c
@@ -21,10 +20,6 @@ typedef struct Task /* Descriptor de una tarea */
   /* Para el nExitTask y nWaitTask */
   int  rc;                  /* codigo de retorno de la tarea  */
   struct Task *wait_task;   /* La tarea que espera un nExitTask */
-
-  /* Para nExchange */
-  struct FifoQueue *exchange_queue; /* cola para intercambio de mensajes */
-    void  *exchange_msg;
 
   /* Para nSend, nReceive y nReply */
   struct Queue *send_queue; /* cola de emisores en espera de esta tarea */
@@ -51,8 +46,6 @@ typedef struct Task /* Descriptor de una tarea */
 #define WAIT_COND 10  /* esta bloqueada en una condicion (nWaitCondition) */
 #define WAIT_COND_TIMEOUT 11 /*esta bloqueado en un monitor con timeout */
 #define WAIT_SLEEP 12 /* esta dormida en nSleep */
-#define WAIT_EXCHANGE 13 /* esta bloqueada esperando un intercambio */
-#define WAIT_EXCHANGE_TIMEOUT 14 /* .... con timeout */
 
 #define STATUS_END WAIT_SLEEP
 
