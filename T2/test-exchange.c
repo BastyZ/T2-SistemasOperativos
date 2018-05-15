@@ -25,7 +25,7 @@ int test1() {
     nFatalError("nMain", "no se recibio el mensaje esperado\n");
   nPrintf("      hago wait\n");
   nWaitTask(t);
-  nnPrintf("     hice wait\n");
+  nPrintf("     hice wait\n");
   return 0;
 }
 
