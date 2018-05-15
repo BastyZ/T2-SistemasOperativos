@@ -34,7 +34,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
         nTask this_task = current_task;
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT) {
-            nPrintf("Soy El 2do");
+            nPrintf("Soy El 2do\n");
             if (task->status==WAIT_EXCHANGE_TIMEOUT)
                 CancelTask(task);
             task->status = READY;
@@ -45,7 +45,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
         } else if (task->status==ZOMBIE) {
             nFatalError("nExchange", "El receptor es un ZOMBIE");
         } else {
-            nPrintf("Soy el primero");
+            nPrintf("Soy el primero\n");
             // en este punto, soy el primero de la vida, o le paso el mensaje al otro
             // para que lo reciba (siendo 2do)
             this_task->exchange_msg = msg;
