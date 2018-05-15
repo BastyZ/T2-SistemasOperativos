@@ -53,7 +53,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             END_CRITICAL();
             return return_msg;
         } else if (task->status==ZOMBIE) {
-            nFatalError("nExchange", "El receptor es un ZOMBIE");
+            return NULL;
         } else {
             //nPrintf("Soy el primero\n");
             // en este punto, soy el primero de la vida, o le paso el mensaje al otro
