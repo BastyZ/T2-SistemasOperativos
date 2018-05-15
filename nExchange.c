@@ -66,6 +66,10 @@ void* nExchange(nTask task, void *msg, int timeout) {
             //nPrintf("Primero: chao loh vimoh\n");
             ResumeNextReadyTask();
         }
+        if (this_task->status == WAIT_EXCHANGE_TIMEOUT) {
+            END_CRITICAL();
+            return NULL;
+        }
         // Si la cola de envios está vacia el mensaje es nulo
         // Como el segundo hace push de si mismo, sabemos que el es el primero en la lista
         if (!EmptyFifoQueue(task->exchange_queue)) {
