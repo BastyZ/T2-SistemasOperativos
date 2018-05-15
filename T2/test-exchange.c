@@ -61,8 +61,8 @@ int test3b() {
   return 0;
 }
 
-#define NTASKS 1000
-#define NITER  10000
+#define NTASKS 100
+#define NITER  1000
 
 int test_parallel() {
   nTask tasks[NTASKS*3];
