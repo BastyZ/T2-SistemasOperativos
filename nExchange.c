@@ -32,6 +32,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
     START_CRITICAL();
     {
         nTask this_task = current_task;
+        if (this_task->exchange_queue)
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT) {
             if (task->status==WAIT_EXCHANGE_TIMEOUT)
@@ -40,7 +41,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             PushTask(ready_queue, task); /* primer lugar en la cola ready */
             this_task->exchange_msg = msg;
             // seteado el mensaje,y la proxima tarea en despertar es task
-            PutObj(task->exchange_queue, this_task); /* primero en cola exchange */
+            PushObj(task->exchange_queue, this_task); /* primero en cola exchange */
         } else if (task->status==ZOMBIE) {
             nFatalError("nExchange", "El receptor es un ZOMBIE");
         } else {
