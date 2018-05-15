@@ -17,7 +17,7 @@
  */
 
 /*
- * Al enviar un mensaje, la tarea espera con WAIT_SEND o WAIT_SEND_TIMEOUT
+ * Al enviar un mensaje, la tarea espera con WAIT_EXCHANGE o WAIT_EXCHANGE_TIMEOUT
  */
 
 #include "nSysimp.h"
@@ -32,23 +32,31 @@ void* nExchange(nTask task, void *msg, int timeout) {
     {
         nTask this_task = current_task;
         // debería ser el segundo, porque espera que le mande una respuesta
-        if (task->status==WAIT_SEND || task->status==WAIT_SEND_TIMEOUT) {
-            // Si tiene timeout, cancelo el despertador
-            if (task->status==WAIT_COND_TIMEOUT) CancelTask();
-            // acá debo primero recibir el mensaje del otro culiao como en nSend
-            sender_task = GetTask(this_task->send_queue);
-            // TODO verificar que recibo de tesk (?)
-            // Si la cola de envios está vacia el mensaje es nulo
-            return_msg = sender_task==NULL ? NULL : sender_task->send.msg;
+        if (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT) {
+            if (task->status==WAIT_EXCHANGE_TIMEOUT)
+                CancelTask(task);
+            task->status = READY;
+            PushTask(ready_queue, task); /* primer lugar en la cola ready */
+            this_task->exchange_msg = msg;
+            // seteado el mensaje,y la proxima tarea en despertar es task
+            PushObj(task->exchange_queue, this_task); /* primero en cola exchange */
+        } else if (task->status==ZOMBIE) {
+            nFatalError("nExchange", "El receptor es un ZOMBIE");
+        } else {
+            // en este punto, soy el primero de la vida, o le paso el mensaje al otro
+            // para que lo reciba (siendo 2do)
+            PushObj(task->exchange_queue, this_task);
+            this_task->exchange_msg = msg;
+            if (timeout > 0) {
+                this_task->status = WAIT_EXCHANGE_TIMEOUT;
+                ProgramTask(timeout);
+            } else this_task->status = WAIT_EXCHANGE;
+            ResumeNextReadyTask();
         }
-        // en este punto, soy el primero de la vida, o le paso el mensaje al otro para que lo reciba (siendo 2do)
-        PutTask(task->send_queue, this_task);
-        this_task->send.msg = msg;
-        if (timeout > 0) {
-            this_task->status = WAIT_SEND_TIMEOUT;
-            ProgramTask(timeout);
-        } else this_task->status = WAIT_SEND;
-        ResumeNextReadyTask();
+        // Si la cola de envios está vacia el mensaje es nulo
+        // Como el segundo hace push de si mismo, sabemos que el es el primero
+        sender_task = GetObj(this_task->exchange_queue);
+        return_msg = sender_task==NULL ? NULL : sender_task->exchange_msg;
     }
     END_CRITICAL();
 
