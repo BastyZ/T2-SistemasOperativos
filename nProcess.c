@@ -467,11 +467,13 @@ int nWaitTask(nTask task)
        nFatalError("nWaitTask",
                    "Hay %d tarea(s) en la cola de la tarea moribunda\n",
                    QueueLength(task->send_queue) );
+    nPrinft(" ----   voy a matar la fifo queue");
     if (! EmptyFifoQueue(task->exchange_queue))
        nFatalError("nWaitTask",
                    "Hay %d tarea(s) en la cola exchange de la tarea moribunda\n",
                     QueueLength(task->send_queue) );
     DestroyQueue(task->send_queue);
+    nPrintf(" ----   maté la fifo queue");
     DestroyFifoQueue(task->exchange_queue);
     nFree(task->stack); /* Libera los recursos de la tarea */
     rc= task->rc;
