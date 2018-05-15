@@ -50,6 +50,8 @@ typedef struct Task /* Descriptor de una tarea */
 #define WAIT_COND 10  /* esta bloqueada en una condicion (nWaitCondition) */
 #define WAIT_COND_TIMEOUT 11 /*esta bloqueado en un monitor con timeout */
 #define WAIT_SLEEP 12 /* esta dormida en nSleep */
+#define WAIT_EXCHANGE 13
+#define WAIT_EXCHANGE_TIMEOUT 14
 
 #define STATUS_END WAIT_SLEEP
 
