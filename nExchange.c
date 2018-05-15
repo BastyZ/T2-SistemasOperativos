@@ -39,6 +39,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             if (task->status==WAIT_EXCHANGE_TIMEOUT)
                 CancelTask(task);
             task->status = READY;
+            this_task->status = READY;
             PushTask(ready_queue, task); /* primer lugar en la cola ready */
             //nPrintf("2do:   coloque task en la ready queue\n");
             this_task->exchange_msg = msg;
