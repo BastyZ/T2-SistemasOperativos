@@ -34,25 +34,25 @@ void* nExchange(nTask task, void *msg, int timeout) {
         nTask this_task = current_task;
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT) {
-            nPrintf("Soy El 2do\n");
+            nPrintf("2do:   Soy El 2do\n");
             if (task->status==WAIT_EXCHANGE_TIMEOUT)
                 CancelTask(task);
             task->status = READY;
             PushTask(ready_queue, task); /* primer lugar en la cola ready */
-            nPrintf("coloque task en la ready queue\n");
+            nPrintf("2do:   coloque task en la ready queue\n");
             this_task->exchange_msg = msg;
             // seteado el mensaje,y la proxima tarea en despertar es task
             PushObj(task->exchange_queue, this_task); /* primero en cola exchange */
-            nPrintf("me coloque en la cola de exchange de task \n");
+            nPrintf("2do:   me coloque en la cola de exchange de task \n");
             // creo un alternative return
             if (!EmptyFifoQueue(this_task->exchange_queue)) {
-                nPrintf("Hago get de mi exchange queue\n");
+                nPrintf("2do:   Hago get de mi exchange queue\n");
                 sender_task = GetObj(this_task->exchange_queue);
-                nPrintf("Lo logre c: \n");
+                nPrintf("2do:   Lo logre c: \n");
             }
             nPrintf("agarro el mensaje\n");
             return_msg = sender_task==NULL ? NULL : sender_task->exchange_msg;
-            nPrintf("lo guardé y termino y ahora END\n");
+            nPrintf("2do:   lo guardé y termino y ahora END\n");
             END_CRITICAL();
             return return_msg;
         }/* else if (task->status==ZOMBIE) {
@@ -67,7 +67,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
                 ProgramTask(timeout);
             } else this_task->status = WAIT_EXCHANGE;
             PushObj(task->exchange_queue, this_task);
-            nPrintf("Primero: chao loh vimoh");
+            nPrintf("Primero: chao loh vimoh\n");
             ResumeNextReadyTask();
         }
         // Si la cola de envios está vacia el mensaje es nulo
