@@ -463,6 +463,7 @@ int nWaitTask(nTask task)
     }
 
     if (task->taskname!=NULL) nFree(task->taskname);
+    nPrintf(" ----   maté al nombre");
     if (! EmptyQueue(task->send_queue))
        nFatalError("nWaitTask",
                    "Hay %d tarea(s) en la cola de la tarea moribunda\n",
