@@ -26,7 +26,7 @@
 
 void* nExchange(nTask task, void *msg, int timeout) {
     // Para recibir el mensaje
-    void *return_msg;
+    void volatile *return_msg;
     nTask sender_task = NULL;
 
     START_CRITICAL();
