@@ -365,7 +365,7 @@ static void TaskInit( InfoEmit *pinfo )
 
 static nTask MakeTask(int stack_size)
 {
-  nTask new_task= (nTask) nMalloc(sizeof(*new_task));
+    volatile new_task= (nTask) nMalloc(sizeof(*new_task));
   new_task->status= READY;
   new_task->exchange_task = NULL;
   new_task->taskname=NULL;
