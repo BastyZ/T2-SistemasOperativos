@@ -24,9 +24,9 @@
 #include "nSysimp.h"
 #include "nSystem.h"
 
-void* nExchange(nTask task, volatile void *msg, int timeout) {
+void* nExchange(nTask task, void *msg, int timeout) {
     // Para recibir el mensaje
-    void volatile *return_msg;
+    void *return_msg;
     volatile nTask sender_task = NULL;
 
     START_CRITICAL();

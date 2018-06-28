@@ -311,7 +311,7 @@ nTask nEmitTask( int (*proc)(), ... )
     /* Debugging: chequea el desborde del stack */
     MarkStack(new_task->stack);
 
-    /* Modificación para AMD64. Por Francisco Cifuentes */
+    /* Modificaciï¿½n para AMD64. Por Francisco Cifuentes */
     va_copy(info.ap, ap);
     info.proc= proc;
 
@@ -365,7 +365,7 @@ static void TaskInit( InfoEmit *pinfo )
 
 static nTask MakeTask(int stack_size)
 {
-    volatile new_task= (nTask) nMalloc(sizeof(*new_task));
+  nTask new_task = (nTask) nMalloc(sizeof(*new_task));
   new_task->status= READY;
   new_task->exchange_task = NULL;
   new_task->taskname=NULL;
