@@ -33,6 +33,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
     {
         nTask this_task = current_task;
         this_task->exchange_task = task;
+        nTask this_task = current_task;
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->exchange_task==this_task && (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT)) {
             //nPrintf("2do:   Soy El 2do\n");
