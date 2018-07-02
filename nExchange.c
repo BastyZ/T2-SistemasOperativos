@@ -30,7 +30,6 @@ void* nExchange(nTask task, void *msg, int timeout) {
     void *return_msg;
     nTask sender_task = NULL;
 
-
     {
         nTask this_task = current_task;
         this_task->exchange_task = task;
@@ -71,6 +70,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             //nPrintf("Primero: chao loh vimoh\n");
             ResumeNextReadyTask();
         }
+        START_CRITICAL();
         if (task->exchange_is_waiting) {
             END_CRITICAL();
             return NULL;
