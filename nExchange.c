@@ -25,18 +25,17 @@
 #include "nSystem.h"
 
 void* nExchange(nTask task, void *msg, int timeout) {
+    START_CRITICAL();
     // Para recibir el mensaje
     void *return_msg;
     volatile nTask sender_task = NULL;
-
-    START_CRITICAL();
     {
         nTask this_task = current_task;
         this_task->exchange_task = task;
-        nTask this_task = current_task;
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->exchange_task==this_task && (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT)) {
             //nPrintf("2do:   Soy El 2do\n");
+            if(this_task != current_task)
             if (task->status==WAIT_EXCHANGE_TIMEOUT) {
                 task->exchange_is_waiting = FALSE;
                 CancelTask(task);
