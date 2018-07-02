@@ -25,11 +25,12 @@
 #include "nSystem.h"
 
 void* nExchange(nTask task, void *msg, int timeout) {
+    START_CRITICAL();
     // Para recibir el mensaje
     void *return_msg;
     nTask sender_task = NULL;
 
-    START_CRITICAL();
+
     {
         nTask this_task = current_task;
         this_task->exchange_task = task;
