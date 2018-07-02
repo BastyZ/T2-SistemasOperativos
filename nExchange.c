@@ -18,7 +18,6 @@
 
 /*
  * Al enviar un mensaje, la tarea espera con WAIT_EXCHANGE o WAIT_EXCHANGE_TIMEOUT
- * Vuelta a empezar desde que paso el primer test checkedasda
  */
 
 #include "nSysimp.h"
