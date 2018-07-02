@@ -28,14 +28,14 @@ void* nExchange(nTask task, void *msg, int timeout) {
     START_CRITICAL();
     // Para recibir el mensaje
     void *return_msg;
-    volatile nTask sender_task = NULL;
+    nTask sender_task = NULL;
+
     {
         nTask this_task = current_task;
         this_task->exchange_task = task;
         // debería ser el segundo, porque espera que le mande una respuesta
         if (task->exchange_task==this_task && (task->status==WAIT_EXCHANGE || task->status==WAIT_EXCHANGE_TIMEOUT)) {
             //nPrintf("2do:   Soy El 2do\n");
-            if(this_task != current_task)
             if (task->status==WAIT_EXCHANGE_TIMEOUT) {
                 task->exchange_is_waiting = FALSE;
                 CancelTask(task);
@@ -70,6 +70,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
             //nPrintf("Primero: chao loh vimoh\n");
             ResumeNextReadyTask();
         }
+        START_CRITICAL();
         if (task->exchange_is_waiting) {
             END_CRITICAL();
             return NULL;
