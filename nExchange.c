@@ -69,7 +69,7 @@ void* nExchange(nTask task, void *msg, int timeout) {
         ResumeNextReadyTask();
     }
     START_CRITICAL();
-    if (task->exchange_is_waiting) {
+    if (task->exchange_is_waiting) { // Si despierta pasado el timeout sin respuesta
         END_CRITICAL();
         return NULL;
     }
